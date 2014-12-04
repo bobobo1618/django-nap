@@ -77,7 +77,10 @@ def autodiscover():
     from django.utils.module_loading import module_has_submodule
 
     for app in settings.INSTALLED_APPS:
-        mod = import_module(app)
+        try:
+            mod = import_module(app)
+        except ImportError:
+            continue
         # Attempt to import the app's api module.
         try:
             import_module('%s.publishers' % app)
