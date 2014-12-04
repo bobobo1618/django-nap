@@ -23,8 +23,13 @@ def digattr(obj, attr, default=None):
                     obj = obj[int(step)]
                 except (IndexError, ValueError, KeyError, TypeError):
                     return default
+        
         if callable(obj):
-            obj = obj()
+            try:
+                obj = obj()
+            # For Django 1.7 managers
+            except KeyError:
+                pass
     return obj
 
 
